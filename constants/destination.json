@@ -1,0 +1,233 @@
+{
+    "destinations": [
+      {
+        "id": 1,
+        "name": "Eiffel Tower",
+        "location": {
+          "city": "Paris",
+          "country": "France",
+          "coordinates": { "latitude": 48.8584, "longitude": 2.2945 }
+        },
+        "description": "An iconic symbol of France, offering panoramic views of Paris from its observation decks.",
+        "activities": ["Sightseeing", "Photography", "Dining", "Guided tours"],
+        "bestTimeToVisit": "April to June, September to November",
+        "entryFee": { "currency": "EUR", "amount": 25 },
+        "rating": 4.7,
+        "tags": ["landmark", "historic", "architecture"],
+        "images": [
+          "https://media.architecturaldigest.com/photos/66a951edce728792a48166e6/3:2/w_7950,h_5300,c_limit/GettyImages-955441104.jpg",
+          "https://media.architecturaldigest.com/photos/66a951edce728792a48166e6/3:2/w_7950,h_5300,c_limit/GettyImages-955441104.jpg"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Great Barrier Reef",
+        "location": {
+          "city": "Cairns",
+          "country": "Australia",
+          "coordinates": { "latitude": -18.2871, "longitude": 147.6992 }
+        },
+        "description": "The world’s largest coral reef system, famous for its vibrant marine life and snorkeling spots.",
+        "activities": ["Snorkeling", "Scuba diving", "Boat tours", "Wildlife watching"],
+        "bestTimeToVisit": "June to October",
+        "entryFee": { "currency": "AUD", "amount": 30 },
+        "rating": 4.8,
+        "tags": ["nature", "marine", "adventure"],
+        "images": [
+          "https://example.com/images/reef1.jpg",
+          "https://example.com/images/reef2.jpg"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Taj Mahal",
+        "location": {
+          "city": "Agra",
+          "country": "India",
+          "coordinates": { "latitude": 27.1751, "longitude": 78.0421 }
+        },
+        "description": "A UNESCO World Heritage site and one of the New Seven Wonders of the World, known for its white marble beauty.",
+        "activities": ["Sightseeing", "Photography", "Guided tours"],
+        "bestTimeToVisit": "October to March",
+        "entryFee": { "currency": "INR", "amount": 50 },
+        "rating": 4.9,
+        "tags": ["monument", "historic", "romantic"],
+        "images": [
+          "https://example.com/images/taj1.jpg",
+          "https://example.com/images/taj2.jpg"
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Red Fort",
+        "location": {
+          "city": "Delhi",
+          "country": "India",
+          "coordinates": { "latitude": 28.6562, "longitude": 77.2410 }
+        },
+        "description": "A majestic red sandstone fort that was the main residence of Mughal emperors for over 200 years.",
+        "activities": ["Historical tours", "Cultural events", "Photography"],
+        "bestTimeToVisit": "November to February",
+        "entryFee": { "currency": "INR", "amount": 35 },
+        "rating": 4.6,
+        "tags": ["fort", "UNESCO", "architecture"],
+        "images": [
+          "https://example.com/images/redfort1.jpg",
+          "https://example.com/images/redfort2.jpg"
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Goa Beaches",
+        "location": {
+          "city": "Goa",
+          "country": "India",
+          "coordinates": { "latitude": 15.2993, "longitude": 74.1240 }
+        },
+        "description": "Famous for its vibrant beaches, nightlife, water sports, and Portuguese heritage.",
+        "activities": ["Beach parties", "Water sports", "Local cuisine", "Sightseeing"],
+        "bestTimeToVisit": "November to February",
+        "entryFee": { "currency": "INR", "amount": 0 },
+        "rating": 4.7,
+        "tags": ["beach", "relaxation", "nightlife"],
+        "images": [
+          "https://example.com/images/goa1.jpg",
+          "https://example.com/images/goa2.jpg"
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Golden Temple",
+        "location": {
+          "city": "Amritsar",
+          "country": "India",
+          "coordinates": { "latitude": 31.6200, "longitude": 74.8765 }
+        },
+        "description": "A spiritual site of Sikhism known for its golden architecture and peaceful ambiance.",
+        "activities": ["Religious visits", "Langar dining", "Peaceful meditation"],
+        "bestTimeToVisit": "October to March",
+        "entryFee": { "currency": "INR", "amount": 0 },
+        "rating": 4.9,
+        "tags": ["religious", "spiritual", "architecture"],
+        "images": [
+          "https://example.com/images/golden1.jpg",
+          "https://example.com/images/golden2.jpg"
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Machu Picchu",
+        "location": {
+          "city": "Cusco Region",
+          "country": "Peru",
+          "coordinates": { "latitude": -13.1631, "longitude": -72.5450 }
+        },
+        "description": "A historic Incan citadel nestled in the Andes Mountains, known for its mysterious stone structures.",
+        "activities": ["Hiking", "Photography", "Cultural exploration"],
+        "bestTimeToVisit": "April to October",
+        "entryFee": { "currency": "PEN", "amount": 152 },
+        "rating": 4.8,
+        "tags": ["historic", "UNESCO", "mountains"],
+        "images": [
+          "https://example.com/images/machu1.jpg",
+          "https://example.com/images/machu2.jpg"
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Statue of Liberty",
+        "location": {
+          "city": "New York City",
+          "country": "USA",
+          "coordinates": { "latitude": 40.6892, "longitude": -74.0445 }
+        },
+        "description": "A symbol of freedom and democracy, gifted by France to the USA, located on Liberty Island.",
+        "activities": ["Ferry rides", "Museum tours", "Photography"],
+        "bestTimeToVisit": "April to October",
+        "entryFee": { "currency": "USD", "amount": 24 },
+        "rating": 4.5,
+        "tags": ["monument", "historic", "symbolic"],
+        "images": [
+          "https://example.com/images/liberty1.jpg",
+          "https://example.com/images/liberty2.jpg"
+        ]
+      },
+      {
+        "id": 9,
+        "name": "Colosseum",
+        "location": {
+          "city": "Rome",
+          "country": "Italy",
+          "coordinates": { "latitude": 41.8902, "longitude": 12.4922 }
+        },
+        "description": "An ancient amphitheater in Rome, once the site of gladiator battles and public spectacles.",
+        "activities": ["Guided tours", "History exploration", "Architecture viewing"],
+        "bestTimeToVisit": "March to May, September to November",
+        "entryFee": { "currency": "EUR", "amount": 16 },
+        "rating": 4.6,
+        "tags": ["historic", "architecture", "UNESCO"],
+        "images": [
+          "https://example.com/images/colosseum1.jpg",
+          "https://example.com/images/colosseum2.jpg"
+        ]
+      },
+      {
+        "id": 10,
+        "name": "Santorini",
+        "location": {
+          "city": "Santorini",
+          "country": "Greece",
+          "coordinates": { "latitude": 36.3932, "longitude": 25.4615 }
+        },
+        "description": "A stunning island known for its whitewashed buildings, blue domes, and beautiful sunsets.",
+        "activities": ["Sunset watching", "Boat tours", "Local cuisine"],
+        "bestTimeToVisit": "April to October",
+        "entryFee": { "currency": "EUR", "amount": 0 },
+        "rating": 4.7,
+        "tags": ["island", "romantic", "photography"],
+        "images": [
+          "https://example.com/images/santorini1.jpg",
+          "https://example.com/images/santorini2.jpg"
+        ]
+      },
+      {
+        "id": 11,
+        "name": "Banff National Park",
+        "location": {
+          "city": "Alberta",
+          "country": "Canada",
+          "coordinates": { "latitude": 51.4968, "longitude": -115.9281 }
+        },
+        "description": "A scenic national park in the Canadian Rockies known for turquoise lakes and wildlife.",
+        "activities": ["Hiking", "Wildlife watching", "Camping"],
+        "bestTimeToVisit": "June to September",
+        "entryFee": { "currency": "CAD", "amount": 10 },
+        "rating": 4.8,
+        "tags": ["nature", "mountains", "adventure"],
+        "images": [
+          "https://example.com/images/banff1.jpg",
+          "https://example.com/images/banff2.jpg"
+        ]
+      },
+      {
+        "id": 12,
+        "name": "Dubai Burj Khalifa",
+        "location": {
+          "city": "Dubai",
+          "country": "United Arab Emirates",
+          "coordinates": { "latitude": 25.1972, "longitude": 55.2744 }
+        },
+        "description": "The tallest building in the world, offering breathtaking views of Dubai from its observation decks.",
+        "activities": ["Observation deck visits", "Shopping", "Fine dining"],
+        "bestTimeToVisit": "November to March",
+        "entryFee": { "currency": "AED", "amount": 149 },
+        "rating": 4.7,
+        "tags": ["skyscraper", "modern", "luxury"],
+        "images": [
+          "https://example.com/images/burj1.jpg",
+          "https://example.com/images/burj2.jpg"
+        ]
+      }
+    ]
+  }
+  
