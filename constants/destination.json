@@ -15,8 +15,8 @@
         "rating": 4.7,
         "tags": ["landmark", "historic", "architecture"],
         "images": [
-          "https://media.architecturaldigest.com/photos/66a951edce728792a48166e6/3:2/w_7950,h_5300,c_limit/GettyImages-955441104.jpg",
-          "https://media.architecturaldigest.com/photos/66a951edce728792a48166e6/3:2/w_7950,h_5300,c_limit/GettyImages-955441104.jpg"
+          "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=2070&auto=format&fit=crop"
         ]
       },
       {
@@ -27,15 +27,15 @@
           "country": "Australia",
           "coordinates": { "latitude": -18.2871, "longitude": 147.6992 }
         },
-        "description": "The world’s largest coral reef system, famous for its vibrant marine life and snorkeling spots.",
+        "description": "The world's largest coral reef system, famous for its vibrant marine life and snorkeling spots.",
         "activities": ["Snorkeling", "Scuba diving", "Boat tours", "Wildlife watching"],
         "bestTimeToVisit": "June to October",
         "entryFee": { "currency": "AUD", "amount": 30 },
         "rating": 4.8,
         "tags": ["nature", "marine", "adventure"],
         "images": [
-          "https://example.com/images/reef1.jpg",
-          "https://example.com/images/reef2.jpg"
+          "https://images.unsplash.com/photo-1587139223877-04cb899fa3e8?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?q=80&w=2070&auto=format&fit=crop"
         ]
       },
       {
@@ -53,8 +53,8 @@
         "rating": 4.9,
         "tags": ["monument", "historic", "romantic"],
         "images": [
-          "https://example.com/images/taj1.jpg",
-          "https://example.com/images/taj2.jpg"
+          "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=2071&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=2076&auto=format&fit=crop"
         ]
       },
       {
@@ -72,8 +72,8 @@
         "rating": 4.6,
         "tags": ["fort", "UNESCO", "architecture"],
         "images": [
-          "https://example.com/images/redfort1.jpg",
-          "https://example.com/images/redfort2.jpg"
+          "https://plus.unsplash.com/premium_photo-1661919589683-f11880119fb7?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1624806992066-5ffcf7ca186b?q=80&w=1932&auto=format&fit=crop"
         ]
       },
       {
@@ -91,8 +91,8 @@
         "rating": 4.7,
         "tags": ["beach", "relaxation", "nightlife"],
         "images": [
-          "https://example.com/images/goa1.jpg",
-          "https://example.com/images/goa2.jpg"
+          "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=1974&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1451440063999-77a8b2960d2b?q=80&w=2048&auto=format&fit=crop"
         ]
       },
       {
@@ -110,8 +110,8 @@
         "rating": 4.9,
         "tags": ["religious", "spiritual", "architecture"],
         "images": [
-          "https://example.com/images/golden1.jpg",
-          "https://example.com/images/golden2.jpg"
+          "https://plus.unsplash.com/premium_photo-1697730331435-92e07494db43?q=80&w=3125&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1608021808357-1a90b86e6bd6?q=80&w=1974&auto=format&fit=crop"
         ]
       },
       {
@@ -129,8 +129,8 @@
         "rating": 4.8,
         "tags": ["historic", "UNESCO", "mountains"],
         "images": [
-          "https://example.com/images/machu1.jpg",
-          "https://example.com/images/machu2.jpg"
+          "https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=1976&auto=format&fit=crop"
         ]
       },
       {
@@ -148,8 +148,8 @@
         "rating": 4.5,
         "tags": ["monument", "historic", "symbolic"],
         "images": [
-          "https://example.com/images/liberty1.jpg",
-          "https://example.com/images/liberty2.jpg"
+          "https://images.unsplash.com/photo-1605130284535-11dd9eedc58a?q=80&w=1974&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1575783970733-1aaedde1db74?q=80&w=1975&auto=format&fit=crop"
         ]
       },
       {
@@ -167,8 +167,8 @@
         "rating": 4.6,
         "tags": ["historic", "architecture", "UNESCO"],
         "images": [
-          "https://example.com/images/colosseum1.jpg",
-          "https://example.com/images/colosseum2.jpg"
+          "https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1996&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1604580864964-0462f5d5b1a8?q=80&w=2070&auto=format&fit=crop"
         ]
       },
       {
@@ -186,8 +186,8 @@
         "rating": 4.7,
         "tags": ["island", "romantic", "photography"],
         "images": [
-          "https://example.com/images/santorini1.jpg",
-          "https://example.com/images/santorini2.jpg"
+          "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=2062&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=1935&auto=format&fit=crop"
         ]
       },
       {
@@ -205,8 +205,8 @@
         "rating": 4.8,
         "tags": ["nature", "mountains", "adventure"],
         "images": [
-          "https://example.com/images/banff1.jpg",
-          "https://example.com/images/banff2.jpg"
+          "https://images.unsplash.com/photo-1561134643-668f9057cce4?q=80&w=1974&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1581088382991-83c7f170de75?q=80&w=1974&auto=format&fit=crop"
         ]
       },
       {
@@ -224,8 +224,8 @@
         "rating": 4.7,
         "tags": ["skyscraper", "modern", "luxury"],
         "images": [
-          "https://example.com/images/burj1.jpg",
-          "https://example.com/images/burj2.jpg"
+          "https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?q=80&w=1974&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?q=80&w=1974&auto=format&fit=crop"
         ]
       }
     ]

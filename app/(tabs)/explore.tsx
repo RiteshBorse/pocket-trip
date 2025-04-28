@@ -184,13 +184,13 @@ export default function ExploreScreen() {
             styles.input,
             {
               color: Colors[colorScheme ?? "light"].text,
-              backgroundColor: colorScheme === "dark" ? "#1c1c1e" : "#f2f2f7",
+              backgroundColor: Colors[colorScheme ?? "light"].pocketTripPrimary,
             },
           ]}
           value={input}
           onChangeText={setInput}
           placeholder="Ask about your trip..."
-          placeholderTextColor={Colors[colorScheme ?? "light"].tabIconDefault}
+          placeholderTextColor={Colors[colorScheme ?? "light"].icon}
           multiline
         />
         <Pressable
@@ -200,7 +200,7 @@ export default function ExploreScreen() {
             {
               backgroundColor:
                 input.trim() === ""
-                  ? Colors[colorScheme ?? "light"].tabIconDefault
+                  ? Colors[colorScheme ?? "light"].icon
                   : Colors[colorScheme ?? "light"].pocketTripAccent,
               opacity: pressed ? 0.8 : 1,
             },
@@ -217,86 +217,126 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.light.background,
+    paddingTop: Platform.OS === 'ios' ? 60 : 40,
   },
   header: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(0,0,0,0.1)",
-    backgroundColor: "rgb(236,226,251)",
+    borderBottomColor: 'rgba(138, 79, 255, 0.1)',
+    backgroundColor: Colors.light.pocketTripPrimary,
   },
   messagesContainer: {
     flex: 1,
+    backgroundColor: Colors.light.background,
   },
   messagesContent: {
     padding: 16,
-    paddingBottom: 20,
+    paddingBottom: Platform.OS === 'ios' ? 140 : 120,
   },
   messageBubble: {
-    padding: 12,
-    borderRadius: 18,
-    maxWidth: "80%",
-    marginBottom: 10,
+    padding: 16,
+    borderRadius: 20,
+    maxWidth: "85%",
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
   },
   userMessage: {
     alignSelf: "flex-end",
-    backgroundColor: "#8A4FFF",
+    backgroundColor: Colors.light.pocketTripAccent,
+    borderBottomRightRadius: 4,
   },
   botMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "rgb(236,226,251)",
+    backgroundColor: Colors.light.pocketTripPrimary,
+    borderBottomLeftRadius: 4,
   },
   inputContainer: {
     flexDirection: "row",
-    padding: 10,
-    paddingBottom: 40,
-    marginBottom: 35,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: Platform.OS === 'ios' ? 40 : 20,
+    marginBottom: Platform.OS === 'ios' ? 25 : 15,
     alignItems: "flex-end",
     borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.1)",
+    borderTopColor: 'rgba(138, 79, 255, 0.1)',
+    backgroundColor: Colors.light.background,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   input: {
     flex: 1,
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginRight: 10,
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    marginRight: 12,
     maxHeight: 100,
+    borderWidth: 1,
+    borderColor: 'rgba(138, 79, 255, 0.3)',
+    fontSize: 16,
+    minHeight: 48,
   },
   sendButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 3,
   },
   welcomeContainer: {
     alignItems: "center",
-    paddingVertical: 30,
-  },
-  welcomeIcon: {
-    marginBottom: 20,
-  },
-  welcomeText: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 30,
+    paddingVertical: 40,
     paddingHorizontal: 20,
   },
+  welcomeIcon: {
+    marginBottom: 24,
+    backgroundColor: Colors.light.pocketTripPrimary,
+    padding: 16,
+    borderRadius: 20,
+  },
+  welcomeText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 32,
+    lineHeight: 24,
+    color: Colors.light.text,
+  },
   suggestionsTitle: {
-    marginBottom: 12,
-    fontWeight: "bold",
+    marginBottom: 16,
+    fontSize: 16,
+    fontWeight: "600",
+    color: Colors.light.text,
   },
   suggestionList: {
     width: "100%",
-    gap: 10,
+    gap: 12,
   },
   suggestionItem: {
-    padding: 12,
-    borderRadius: 10,
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: Colors.light.pocketTripPrimary,
     borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.1)",
+    borderColor: 'rgba(138, 79, 255, 0.2)',
   },
 });
