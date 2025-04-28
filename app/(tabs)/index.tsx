@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Platform, TouchableOpacity, Modal, TextInput, ActivityIndicator } from 'react-native';
 import destinations from '../../constants/destination.json';
 import { Colors } from '../../constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Destination {
   id: number;
@@ -84,6 +85,9 @@ const Index = () => {
   const [currentLocation, setCurrentLocation] = useState('');
   const [loading, setLoading] = useState(false);
   const [tripPlan, setTripPlan] = useState<TripPlan | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Destination[]>(destinations.destinations);
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleCardPress = (destination: Destination) => {
     setSelectedDestination(destination);
@@ -208,6 +212,113 @@ const Index = () => {
     }
   };
 
+  const searchDestinations = async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults(destinations.destinations);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      // First try to match existing destinations
+      const matchingDestinations = destinations.destinations.filter(dest =>
+        dest.name.toLowerCase().includes(query.toLowerCase()) ||
+        dest.location.city.toLowerCase().includes(query.toLowerCase()) ||
+        dest.location.country.toLowerCase().includes(query.toLowerCase()) ||
+        dest.description.toLowerCase().includes(query.toLowerCase()) ||
+        dest.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+      );
+
+      if (matchingDestinations.length > 0) {
+        setSearchResults(matchingDestinations);
+      } else {
+        // If no matches found, use Gemini to generate new destinations
+        const prompt = `Generate a tourist destination matching the search query "${query}". Return the response in the following JSON format:
+{
+  "destinations": [
+    {
+      "id": number,
+      "name": string,
+      "location": {
+        "city": string,
+        "country": string,
+        "coordinates": {
+          "latitude": number,
+          "longitude": number
+        }
+      },
+      "description": string (detailed, about 2-3 sentences),
+      "activities": [string] (array of 3-5 popular activities),
+      "bestTimeToVisit": string,
+      "entryFee": {
+        "currency": string,
+        "amount": number
+      },
+      "rating": number (between 1-5),
+      "tags": [string] (array of 3-5 relevant tags),
+      "images": [string] (array with at least one placeholder image URL, e.g., "https://source.unsplash.com/random/?destination,${query}")
+    }
+  ]
+}`;
+
+        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBScRlazwOjcpWaKgEa8kbAa9oMbhimNsQ', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt
+              }]
+            }],
+            generationConfig: {
+              temperature: 0.7,
+              topK: 1,
+              topP: 1
+            }
+          })
+        });
+
+        const data = await response.json();
+        const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+
+        if (generatedText) {
+          try {
+            const cleanedText = generatedText
+              .trim()
+              .replace(/^```json\s*/, '')
+              .replace(/```$/, '')
+              .trim();
+
+            const generatedData = JSON.parse(cleanedText);
+            
+            // Ensure the generated destinations have valid image URLs
+            const processedDestinations = generatedData.destinations.map((dest: Destination) => ({
+              ...dest,
+              images: dest.images.map((img: string) => 
+                img.startsWith('http') ? img : `https://source.unsplash.com/random/?${encodeURIComponent(dest.name)},${encodeURIComponent(query)}`
+              )
+            }));
+
+            // Combine with any existing matches
+            setSearchResults(processedDestinations);
+          } catch (e) {
+            console.error('Error parsing generated destinations:', e);
+            setSearchResults(matchingDestinations);
+          }
+        } else {
+          setSearchResults(matchingDestinations);
+        }
+      }
+    } catch (error) {
+      console.error('Error searching destinations:', error);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   const renderTripPlan = () => {
     if (!tripPlan) return null;
 
@@ -309,52 +420,93 @@ const Index = () => {
     );
   };
 
+  const renderDestinationCard = (destination: Destination) => (
+    <TouchableOpacity
+      key={destination.id}
+      style={styles.card}
+      onPress={() => handleCardPress(destination)}
+    >
+      <Image
+        source={{ uri: destination.images[0] }}
+        style={styles.image}
+        resizeMode="cover"
+      />
+      <View style={styles.cardContent}>
+        <Text style={styles.name}>{destination.name}</Text>
+        <Text style={styles.location}>
+          {destination.location.city}, {destination.location.country}
+        </Text>
+        <Text style={styles.description} numberOfLines={2}>
+          {destination.description}
+        </Text>
+        <View style={styles.details}>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.rating}>★ {destination.rating}</Text>
+          </View>
+          <Text style={styles.price}>
+            {destination.entryFee.currency} {destination.entryFee.amount}
+          </Text>
+        </View>
+        <View style={styles.tagsContainer}>
+          {destination.tags.map((tag, index) => (
+            <View key={index} style={styles.tag}>
+              <Text style={styles.tagText}>{tag}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <Ionicons name="search" size={20} color={Colors.light.icon} style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search destinations..."
+            value={searchQuery}
+            onChangeText={(text) => {
+              setSearchQuery(text);
+              searchDestinations(text);
+            }}
+            placeholderTextColor={Colors.light.icon}
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity
+              onPress={() => {
+                setSearchQuery('');
+                setSearchResults(destinations.destinations);
+              }}
+              style={styles.clearButton}
+            >
+              <Ionicons name="close-circle" size={20} color={Colors.light.icon} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
-        <Text style={styles.header}>Popular Destinations</Text>
-        <View style={styles.cardsContainer}>
-          {destinations.destinations.map((destination) => (
-            <TouchableOpacity
-              key={destination.id}
-              style={styles.card}
-              onPress={() => handleCardPress(destination)}
-            >
-              <Image
-                source={{ uri: destination.images[0] }}
-                style={styles.image}
-                resizeMode="cover"
-              />
-              <View style={styles.cardContent}>
-                <Text style={styles.name}>{destination.name}</Text>
-                <Text style={styles.location}>
-                  {destination.location.city}, {destination.location.country}
-                </Text>
-                <Text style={styles.description} numberOfLines={2}>
-                  {destination.description}
-                </Text>
-                <View style={styles.details}>
-                  <View style={styles.ratingContainer}>
-                    <Text style={styles.rating}>★ {destination.rating}</Text>
-                  </View>
-                  <Text style={styles.price}>
-                    {destination.entryFee.currency} {destination.entryFee.amount}
-                  </Text>
-                </View>
-                <View style={styles.tagsContainer}>
-                  {destination.tags.map((tag, index) => (
-                    <View key={index} style={styles.tag}>
-                      <Text style={styles.tagText}>{tag}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <Text style={styles.header}>
+          {searchQuery ? 'Search Results' : 'Popular Destinations'}
+        </Text>
+        {isSearching ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.light.pocketTripAccent} />
+          </View>
+        ) : searchResults.length === 0 ? (
+          <View style={styles.noResultsContainer}>
+            <Text style={styles.noResultsText}>No destinations found. Please try a different search.</Text>
+          </View>
+        ) : (
+          <View style={styles.cardsContainer}>
+            {searchResults.map(renderDestinationCard)}
+          </View>
+        )}
       </ScrollView>
 
       <Modal
@@ -626,6 +778,51 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: Colors.light.pocketTripAccent,
+  },
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 5,
+    backgroundColor: '#f5f5f5',
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.light.background,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.light.pocketTripPrimary,
+    paddingHorizontal: 10,
+    height: 40,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: Colors.light.text,
+    height: '100%',
+  },
+  clearButton: {
+    padding: 4,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 40,
+  },
+  noResultsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 40,
+  },
+  noResultsText: {
+    fontSize: 16,
+    color: Colors.light.text,
+    textAlign: 'center',
   },
 });
 
