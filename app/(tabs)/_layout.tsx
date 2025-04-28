@@ -21,18 +21,35 @@ export default function TabLayout() {
         tabBarStyle: {
           height: 65,
           paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+          backgroundColor: 'transparent',
+          position: 'absolute',
+          borderTopWidth: 0,
         },
         tabBarLabelStyle: {
           fontSize: 12,
         },
         headerShown: false,
         tabBarBackground: () => (
-          <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
+          <BlurView 
+            intensity={80} 
+            tint="light" 
+            style={[
+              StyleSheet.absoluteFill,
+              { backgroundColor: 'rgba(255, 255, 255, 0.7)' }
+            ]} 
+          />
         ),
       }}
       tabBar={(props) => (
         <View style={styles.tabBarContainer}>
-          <BlurView intensity={30} tint="light" style={styles.tabBar}>
+          <BlurView 
+            intensity={80} 
+            tint="light" 
+            style={[
+              styles.tabBar,
+              { backgroundColor: 'rgba(255, 255, 255, 0.7)' }
+            ]}
+          >
             {props.state.routes.map((route, index) => {
               const { options } = props.descriptors[route.key];
               const label =
@@ -195,7 +212,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   tabLabelActive: {
-    fontWeight: 'bold',
+    opacity: 1,
   },
   addButton: {
     flex: 1,
