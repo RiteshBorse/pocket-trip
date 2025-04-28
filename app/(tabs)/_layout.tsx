@@ -13,6 +13,11 @@ function TabBarIcon(props: {
   return <FontAwesome size={24} style={{ marginBottom: -3 }} {...props} />;
 }
 
+// Common screen wrapper component
+const ScreenWrapper = ({ children }: { children: React.ReactNode }) => (
+  <View style={styles.screenWrapper}>{children}</View>
+);
+
 export default function TabLayout() {
   return (
     <Tabs
@@ -179,6 +184,12 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
+  screenWrapper: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: Platform.OS === 'ios' ? 60 : 40,
+    paddingBottom: Platform.OS === 'ios' ? 90 : 80,
+  },
   tabBarContainer: {
     position: 'absolute',
     bottom: 0,
