@@ -1,17 +1,54 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, Image, Alert, ActivityIndicator } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { supabase } from '../lib/supabase';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
+  async function signInWithEmail() {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password');
+      return;
+    }
+    
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else {
+      router.push('/(tabs)');
+    }
+    
+    setLoading(false);
+  }
+
+  async function signInWithGoogle() {
+    // For social login, you'll need to set up OAuth providers in Supabase
+    // and use deep linking for the redirect
+    Alert.alert('Coming Soon', 'Google login will be available soon!');
+  }
+
+  async function signInWithFacebook() {
+    Alert.alert('Coming Soon', 'Facebook login will be available soon!');
+  }
+
+  async function signInWithApple() {
+    Alert.alert('Coming Soon', 'Apple login will be available soon!');
+  }
 
   return (
     <LinearGradient
@@ -79,9 +116,14 @@ export default function LoginScreen() {
         >
           <TouchableOpacity 
             style={styles.buttonContent}
-            onPress={() => router.push('/(tabs)')}
+            onPress={signInWithEmail}
+            disabled={loading}
           >
-            <Text style={styles.loginButtonText}>Login</Text>
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.loginButtonText}>Login</Text>
+            )}
           </TouchableOpacity>
         </LinearGradient>
 
@@ -92,15 +134,21 @@ export default function LoginScreen() {
         </View>
 
         <View style={styles.socialLoginContainer}>
-          <BlurView intensity={40} tint="light" style={styles.socialButton}>
-            <FontAwesome name="google" size={20} color="#DB4437" />
-          </BlurView>
-          <BlurView intensity={40} tint="light" style={styles.socialButton}>
-            <FontAwesome name="facebook" size={20} color="#4267B2" />
-          </BlurView>
-          <BlurView intensity={40} tint="light" style={styles.socialButton}>
-            <FontAwesome name="apple" size={20} color="#000" />
-          </BlurView>
+          <TouchableOpacity onPress={signInWithGoogle}>
+            <BlurView intensity={40} tint="light" style={styles.socialButton}>
+              <FontAwesome name="google" size={20} color="#DB4437" />
+            </BlurView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={signInWithFacebook}>
+            <BlurView intensity={40} tint="light" style={styles.socialButton}>
+              <FontAwesome name="facebook" size={20} color="#4267B2" />
+            </BlurView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={signInWithApple}>
+            <BlurView intensity={40} tint="light" style={styles.socialButton}>
+              <FontAwesome name="apple" size={20} color="#000" />
+            </BlurView>
+          </TouchableOpacity>
         </View>
       </BlurView>
 
@@ -239,4 +287,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-}); 
+});

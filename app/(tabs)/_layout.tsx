@@ -1,8 +1,9 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
+import React, { useEffect } from 'react';
+import { Tabs, useRouter, usePathname } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
+import { useAuth } from '../../context/AuthContext';
+import { ActivityIndicator, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { Colors } from '../../constants/Colors';
-import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 
@@ -19,164 +20,78 @@ const ScreenWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function TabLayout() {
+  const { session, loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!loading && !session) {
+      // Redirect to login if not authenticated
+      router.replace('/login');
+    }
+  }, [session, loading, router]);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={Colors.light.pocketTripAccent} />
+      </View>
+    );
+  }
+
+  if (!session) {
+    return null; // Will redirect in useEffect
+  }
+
   return (
     <Tabs
       screenOptions={{
+        headerShown: false, // Hide the header with tab names
         tabBarActiveTintColor: Colors.light.pocketTripAccent,
         tabBarStyle: {
-          height: 65,
-          paddingBottom: Platform.OS === 'ios' ? 20 : 10,
-          backgroundColor: 'transparent',
-          position: 'absolute',
-          borderTopWidth: 0,
+          width: '100%',  // Make tab bar take full width
+          paddingHorizontal: 0,
+          backgroundColor: Platform.OS === 'ios' ? 'rgba(255,255,255,0.8)' : '#fff',
         },
-        tabBarLabelStyle: {
-          fontSize: 12,
+        tabBarItemStyle: {
+          width: 'auto',  // Allow tab items to size properly
+          flex: 1,       // Distribute space evenly
         },
-        headerShown: false,
-        tabBarBackground: () => (
-          <BlurView 
-            intensity={80} 
-            tint="light" 
-            style={[
-              StyleSheet.absoluteFill,
-              { backgroundColor: 'rgba(255, 255, 255, 0.7)' }
-            ]} 
-          />
-        ),
       }}
-      tabBar={(props) => (
-        <View style={styles.tabBarContainer}>
-          <BlurView 
-            intensity={80} 
-            tint="light" 
-            style={[
-              styles.tabBar,
-              { backgroundColor: 'rgba(255, 255, 255, 0.7)' }
-            ]}
-          >
-            {props.state.routes.map((route, index) => {
-              const { options } = props.descriptors[route.key];
-              const label =
-                options.tabBarLabel !== undefined
-                  ? options.tabBarLabel
-                  : options.title !== undefined
-                  ? options.title
-                  : route.name;
-
-              const isFocused = props.state.index === index;
-
-              const onPress = () => {
-                const event = props.navigation.emit({
-                  type: 'tabPress',
-                  target: route.key,
-                  canPreventDefault: true,
-                });
-
-                if (!isFocused && !event.defaultPrevented) {
-                  props.navigation.navigate(route.name);
-                }
-              };
-
-              // Special case for the center tab (Add button)
-              if (route.name === 'add') {
-                return (
-                  <TouchableOpacity
-                    key={route.key}
-                    style={styles.addButton}
-                    onPress={onPress}
-                  >
-                    <LinearGradient
-                      colors={[Colors.light.pocketTripAccent, '#6a3de8']}
-                      style={styles.addButtonInner}
-                    >
-                      <FontAwesome name="plus" size={24} color="white" />
-                    </LinearGradient>
-                  </TouchableOpacity>
-                );
-              }
-
-              return (
-                <TouchableOpacity
-                  key={route.key}
-                  accessibilityRole="button"
-                  accessibilityState={isFocused ? { selected: true } : {}}
-                  onPress={onPress}
-                  style={styles.tabButton}
-                >
-                  {options.tabBarIcon &&
-                    options.tabBarIcon({
-                      focused: isFocused,
-                      color: isFocused
-                        ? Colors.light.pocketTripAccent
-                        : Colors.light.tabIconDefault,
-                      size: 24,
-                    })}
-                  <View
-                    style={[styles.tabLabel, isFocused && styles.tabLabelActive]}
-                  >
-                    {typeof label === 'string' && (
-                      <FontAwesome
-                        name={
-                          route.name === 'index'
-                            ? 'compass'
-                            : route.name === 'favorite'
-                            ? 'heart'
-                            : route.name === 'profile'
-                            ? 'user'
-                            : route.name === 'mytrip'
-                            ? 'suitcase'
-                            : 'home'
-                        }
-                        size={24}
-                        color={
-                          isFocused
-                            ? Colors.light.pocketTripAccent
-                            : Colors.light.tabIconDefault
-                        }
-                      />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </BlurView>
-        </View>
-      )}
     >
       <Tabs.Screen
         name="index"
         options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => <FontAwesome name="home" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
           title: 'Explore',
-          tabBarLabel: 'Explore',
+          tabBarIcon: ({ color }) => <FontAwesome name="search" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="add"
         options={{
-          title: 'Add',
-          tabBarLabel: '',
+          title: 'Add Trip',
+          tabBarIcon: ({ color }) => <FontAwesome name="plus-circle" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="favorite"
         options={{
-          title: 'Favorite',
-          tabBarLabel: 'Favorite',
-        }}
-      />
-      <Tabs.Screen
-        name="mytrip"
-        options={{
-          title: 'My Trip',
-          tabBarLabel: 'My Trip',
+          title: 'Favorites',
+          tabBarIcon: ({ color }) => <FontAwesome name="heart" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
         }}
       />
     </Tabs>

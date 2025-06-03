@@ -1,18 +1,48 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, ScrollView, Image, Alert, ActivityIndicator } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { supabase } from '../lib/supabase';
 
 export default function SignupScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
+  async function signUpWithEmail() {
+    if (!name || !email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+    
+    setLoading(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          full_name: name,
+        },
+      },
+    });
+    
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else if (!data.session) {
+      Alert.alert('Success', 'Please check your email for verification!');
+    } else {
+      router.push('/(tabs)');
+    }
+    
+    setLoading(false);
+  }
 
   return (
     <LinearGradient
@@ -86,9 +116,14 @@ export default function SignupScreen() {
           >
             <TouchableOpacity 
               style={styles.buttonContent}
-              onPress={() => router.push('/(tabs)')}
+              onPress={signUpWithEmail}
+              disabled={loading}
             >
-              <Text style={styles.signupButtonText}>Sign Up</Text>
+              {loading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.signupButtonText}>Sign Up</Text>
+              )}
             </TouchableOpacity>
           </LinearGradient>
 
@@ -101,23 +136,7 @@ export default function SignupScreen() {
             </Text>
           </View>
 
-          <View style={styles.dividerContainer}>
-            <View style={styles.divider} />
-            <Text style={styles.dividerText}>OR</Text>
-            <View style={styles.divider} />
-          </View>
-
-          <View style={styles.socialLoginContainer}>
-            <BlurView intensity={40} tint="light" style={styles.socialButton}>
-              <FontAwesome name="google" size={20} color="#DB4437" />
-            </BlurView>
-            <BlurView intensity={40} tint="light" style={styles.socialButton}>
-              <FontAwesome name="facebook" size={20} color="#4267B2" />
-            </BlurView>
-            <BlurView intensity={40} tint="light" style={styles.socialButton}>
-              <FontAwesome name="apple" size={20} color="#000" />
-            </BlurView>
-          </View>
+          {/* Keep the rest of your UI */}
         </BlurView>
 
         <View style={styles.footer}>
@@ -262,4 +281,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-}); 
+});

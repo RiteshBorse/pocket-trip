@@ -1,11 +1,25 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.replace('/login');
+    } catch (error) {
+      Alert.alert('Error signing out', (error as Error).message);
+    }
+  };
+
   return (
     <LinearGradient
       colors={['rgba(236,226,251,1)', 'rgba(208,180,253,1)']}
@@ -17,111 +31,39 @@ export default function ProfileScreen() {
             source={require('../../assets/images/icon.png')} 
             style={styles.profileImage} 
           />
-          <Text style={styles.profileName}>John Doe</Text>
-          <Text style={styles.profileEmail}>john.doe@example.com</Text>
+          <Text style={styles.profileName}>{user?.user_metadata?.full_name || 'User'}</Text>
+          <Text style={styles.profileEmail}>{user?.email}</Text>
           
-          <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>12</Text>
-              <Text style={styles.statLabel}>Trips</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>24</Text>
-              <Text style={styles.statLabel}>Countries</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>114</Text>
-              <Text style={styles.statLabel}>Photos</Text>
-            </View>
-          </View>
-        </View>
+          {/* Keep your existing UI */}
 
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Account Settings</Text>
-          
-          <BlurView intensity={40} tint="light" style={styles.menuCard}>
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="user-o" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Edit Profile</Text>
-              <FontAwesome name="angle-right" size={20} color="#999" />
-            </TouchableOpacity>
-            
-            <View style={styles.menuDivider} />
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="bell-o" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Notifications</Text>
-              <FontAwesome name="angle-right" size={20} color="#999" />
-            </TouchableOpacity>
-            
-            <View style={styles.menuDivider} />
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="credit-card" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Payment Methods</Text>
-              <FontAwesome name="angle-right" size={20} color="#999" />
-            </TouchableOpacity>
-          </BlurView>
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
-          
-          <BlurView intensity={40} tint="light" style={styles.menuCard}>
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="language" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Language</Text>
-              <Text style={styles.menuValue}>English</Text>
-            </TouchableOpacity>
-            
-            <View style={styles.menuDivider} />
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="money" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Currency</Text>
-              <Text style={styles.menuValue}>USD</Text>
-            </TouchableOpacity>
-          </BlurView>
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Support</Text>
-          
-          <BlurView intensity={40} tint="light" style={styles.menuCard}>
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="question-circle-o" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Help Center</Text>
-              <FontAwesome name="angle-right" size={20} color="#999" />
-            </TouchableOpacity>
-            
-            <View style={styles.menuDivider} />
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <FontAwesome name="envelope-o" size={20} color="#555" style={styles.menuIcon} />
-              <Text style={styles.menuText}>Contact Us</Text>
-              <FontAwesome name="angle-right" size={20} color="#999" />
-            </TouchableOpacity>
-          </BlurView>
-        </View>
-
-        <TouchableOpacity style={styles.logoutContainer}>
-          <LinearGradient
-            colors={[Colors.light.pocketTripAccent, '#6a3de8']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.logoutButton}
+          <TouchableOpacity 
+            style={styles.signOutButton}
+            onPress={handleSignOut}
           >
-            <Text style={styles.logoutText}>Logout</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+            <Text style={styles.signOutText}>Sign Out</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Keep the rest of your UI */}
       </ScrollView>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  // Keep your existing styles and add:
+  signOutButton: {
+    marginTop: 20,
+    backgroundColor: '#f44336',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  signOutText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   container: {
     flex: 1,
   },
@@ -223,4 +165,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-}); 
+});
