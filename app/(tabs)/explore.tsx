@@ -124,7 +124,7 @@ export default function ExploreScreen() {
         {!message.isUser && (
           <View style={styles.avatarContainer}>
             <IconSymbol
-              name="robot"
+              name="figure.wave"
               size={20}
               color={Colors[colorScheme ?? "light"].pocketTripAccent}
             />
@@ -152,7 +152,7 @@ export default function ExploreScreen() {
         {message.isUser && (
           <View style={styles.avatarContainer}>
             <IconSymbol
-              name="user"
+              name="person.fill"
               size={20}
               color={Colors[colorScheme ?? "light"].pocketTripAccent}
             />
