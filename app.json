@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "rgb(236,226,251)"
+      "backgroundColor": "#ECE2FB" 
     },
     "assetBundlePatterns": [
       "**/*"
@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
-        "backgroundColor": "rgb(236,226,251)"
+        "backgroundColor": "#ECE2FB" 
       },
       "package": "com.pockettrip.app"
     },

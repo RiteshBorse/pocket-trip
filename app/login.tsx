@@ -37,8 +37,6 @@ export default function LoginScreen() {
   }
 
   async function signInWithGoogle() {
-    // For social login, you'll need to set up OAuth providers in Supabase
-    // and use deep linking for the redirect
     Alert.alert('Coming Soon', 'Google login will be available soon!');
   }
 
